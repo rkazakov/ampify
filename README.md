@@ -1,6 +1,4 @@
 # ampify
-
-# postxml-amp
 [![npm version][npm-image]][npm-url]
 
 > Convert plain HTML to Google Accelerated Mobile Pages (AMP).
