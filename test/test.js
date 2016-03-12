@@ -7,7 +7,7 @@ var test = function(input, output, options) {
 	expect(processed).to.eql(output);
 };
 
-describe('postxml-amp', function() {
+describe('ampify', function() {
 
 	describe('html amp tag', function() {
 
@@ -23,7 +23,7 @@ describe('postxml-amp', function() {
 
 	describe('inline styles', function() {
 
-		xit('should inject inline css into style tag', function () {
+		it('should inject inline css into style tag', function () {
 			test(
 				'<link rel="stylesheet" href="style.css">',
 				'<style amp-custom="">body{background-color:#FFF}</style>',
@@ -35,7 +35,7 @@ describe('postxml-amp', function() {
 
 	describe('amp-img tag', function() {
 
-		xit('should replace img tag with amp-img', function() {
+		it('should replace img tag with amp-img', function() {
 			test(
 				'<img src="image.png" width="600" height="400">',
 				'<amp-img src="image.png" width="600" height="400"></amp-img>',
@@ -44,7 +44,7 @@ describe('postxml-amp', function() {
 
 		});
 
-		xit('should add width and height attributes on amp-img tag', function() {
+		it('should add width and height attributes on amp-img tag', function() {
 			test(
 				'<img src="image.png">',
 				'<amp-img src="image.png" width="600" height="400"></amp-img>',
@@ -56,7 +56,7 @@ describe('postxml-amp', function() {
 
 	describe('amp-video tag', function() {
 
-		xit('should replace video tag with amp-video', function() {
+		it('should replace video tag with amp-video', function() {
 			test(
 				'<video src="test.mpg">',
 				'<amp-video src="test.mpg"></amp-video>',
