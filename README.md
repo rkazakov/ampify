@@ -1,5 +1,6 @@
 # ampify
-[![npm version][npm-image]][npm-url]
+[![NPM Version][npm-image]][npm-url]
+[![Downloads Stats][npm-downloads]][npm-url]
 
 > Convert plain HTML to Google Accelerated Mobile Pages (AMP).
 
@@ -47,4 +48,5 @@ MIT (c) Ruslan Kazakov
 
 [PostXML]: https://github.com/postxml/postxml
 [npm-url]: https://www.npmjs.org/package/ampify
-[npm-image]: http://img.shields.io/npm/v/ampify.svg?style=flat-square
+[npm-image]: https://img.shields.io/npm/v/ampify.svg?style=flat-square
+[npm-downloads]: https://img.shields.io/npm/dm/ampify.svg?style=flat-square
