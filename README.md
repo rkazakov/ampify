@@ -54,7 +54,7 @@ body {
     * ADD: unit tests
 * 0.1.0
     * ADD: AMP HTML tag
-		* Work in progress
+    * Work in progress
 
 ## Licence
 MIT (c) Ruslan Kazakov
