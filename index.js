@@ -9,8 +9,7 @@ module.exports = function(html, options) {
     amp: ['img', 'video']
   };
 
-  var round;
-  var options = {}, $;
+  var $, round;
   options.normalizeWhitespace = options.normalizeWhitespace || false;
   options.xmlMode = options.xmlMode || false;
   options.decodeEntities = options.decodeEntities || false;
