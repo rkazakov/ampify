@@ -10,6 +10,8 @@ module.exports = function(html, options) {
   };
 
   var $, round;
+  var options = options || {};
+  
   options.normalizeWhitespace = options.normalizeWhitespace || false;
   options.xmlMode = options.xmlMode || false;
   options.decodeEntities = options.decodeEntities || false;
