@@ -21,6 +21,50 @@ describe('ampify', function() {
 
 	});
 
+	describe('head tag', function() {
+
+		describe('amp library script tag', function() {
+
+			it('should include amp library script tag', function () {
+				test(
+					'<html><head><meta charset="utf-8"></head></html>',
+					'<html amp=""><head><meta charset="utf-8"><script async src="https://cdn.ampproject.org/v0.js"></script></head></html>',
+					{}
+				);
+			});
+
+			it('should not include amp library script tag if it is already there', function () {
+				test(
+					'<html amp=""><head><meta charset="utf-8"><script async src="https://cdn.ampproject.org/v0.js"></script></head></html>',
+					'<html amp=""><head><meta charset="utf-8"><script async src="https://cdn.ampproject.org/v0.js"></script></head></html>',
+					{}
+				);
+			});
+
+		});
+
+		describe('meta tag', function() {
+
+			it('should include meta tag with utf-8 charset attribute', function () {
+				test(
+					'<html><head></head></html>',
+					'<html amp=""><head><meta charset="utf-8"><script async src="https://cdn.ampproject.org/v0.js"></script></head></html>',
+					{}
+				);
+			});
+
+			it('should not include meta tag if it is already there', function () {
+				test(
+					'<html amp=""><head><meta charset="utf-8"><script async src="https://cdn.ampproject.org/v0.js"></script></head></html>',
+					'<html amp=""><head><meta charset="utf-8"><script async src="https://cdn.ampproject.org/v0.js"></script></head></html>',
+					{}
+				);
+			});
+
+		});
+
+	});
+
 	describe('inline styles', function() {
 
 		it('should inject inline css into style tag', function () {

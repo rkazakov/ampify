@@ -11,7 +11,7 @@ module.exports = function(html, options) {
 
   var $, round;
   var options = options || {};
-  
+
   options.normalizeWhitespace = options.normalizeWhitespace || false;
   options.xmlMode = options.xmlMode || false;
   options.decodeEntities = options.decodeEntities || false;
@@ -32,6 +32,18 @@ module.exports = function(html, options) {
   $('html').each(function() {
     $(this).attr('amp', '');
   });
+
+  /* head */
+
+  /* adding meta */
+  if ($('head meta[charset="utf-8"]').length === 0) {
+    $('head').append('<meta charset="utf-8">');
+  }
+
+  /* adding main amp library */
+  if ($('head script[src="https://cdn.ampproject.org/v0.js"]').length === 0) {
+    $('head').append('<script async src="https://cdn.ampproject.org/v0.js"></script>');
+  }
 
   /* img dimensions */
   $('img:not(width):not(height)').each(function() {
