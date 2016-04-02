@@ -47,6 +47,10 @@ body {
 
 ## Release History
 
+* 0.2.2
+    * ADD: meta tag charset
+    * ADD: AMP library script tag
+    * BUG: Options parameter not passing
 * 0.2.1
     * ADD: inline styles
     * ADD: amp-img tag
