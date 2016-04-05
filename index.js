@@ -35,12 +35,22 @@ module.exports = function(html, options) {
 
   /* head */
 
-  /* adding meta */
+  /* meta charset */
   if ($('head meta[charset="utf-8"]').length === 0) {
     $('head').append('<meta charset="utf-8">');
   }
 
-  /* adding main amp library */
+  /* meta viewport */
+  if ($('head meta[content="width=device-width,minimum-scale=1,initial-scale=1"]').length === 0) {
+    $('head').append('<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">');
+  }
+
+  /* style amp-boilerplate */
+  if ($('head style[amp-boilerplate]').length === 0) {
+    $('head').append('<style amp-boilerplate="">body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate="">body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>');
+  }
+
+  /* main amp library */
   if ($('head script[src="https://cdn.ampproject.org/v0.js"]').length === 0) {
     $('head').append('<script async src="https://cdn.ampproject.org/v0.js"></script>');
   }
