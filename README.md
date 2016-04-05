@@ -47,6 +47,9 @@ body {
 
 ## Release History
 
+* 0.2.3
+    * ADD: meta tag viewport
+    * ADD: style amp-boilerplate
 * 0.2.2
     * ADD: meta tag charset
     * ADD: AMP library script tag
