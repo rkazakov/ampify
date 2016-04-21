@@ -47,6 +47,8 @@ body {
 
 ## Release History
 
+* 0.2.4
+	* UPDATE: package.json
 * 0.2.3
     * ADD: meta tag viewport
     * ADD: style amp-boilerplate
