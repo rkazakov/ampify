@@ -1,25 +1,11 @@
 {
   "name": "ampify",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Convert plain HTML to Google Accelerated Mobile Pages (AMP)",
   "main": "index.js",
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "cheerio": "^0.20.0",
-    "clean-css": "^3.4.10",
-    "gulp": "^3.9.1",
-    "gulp-eslint": "^1.1.1",
-    "gulp-mocha": "^2.2.0",
-    "image-size": "^0.4.0",
-    "sync-request": "^3.0.0"
-  },
-  "scripts": {
-    "test": "mocha",
-    "lint": "jshint . && jscs ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rkazakov/ampify.git"
+  "author": {
+    "name": "rkazakov",
+    "email": "ruslan.kazakov@gmail.com"
   },
   "keywords": [
     "html",
@@ -28,13 +14,29 @@
     "amp-img",
     "amp-video"
   ],
-  "author": {
-    "name": "rkazakov",
-    "email": "ruslan.kazakov@gmail.com"
-  },
   "license": "MIT",
+  "scripts": {
+    "test": "mocha",
+    "lint": "jshint . && jscs ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rkazakov/ampify.git"
+  },
   "bugs": {
     "url": "https://github.com/rkazakov/ampify/issues"
   },
-  "homepage": "https://github.com/rkazakov/ampify#readme"
+  "homepage": "https://github.com/rkazakov/ampify#readme",
+  "dependencies": {
+    "cheerio": "^0.20.0",
+    "clean-css": "^3.4.12",
+    "image-size": "^0.4.0",
+    "sync-request": "^3.0.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^1.1.1",
+    "gulp-mocha": "^2.2.0"
+  }
 }
