@@ -91,15 +91,19 @@ module.exports = function(html, options) {
       return '<style amp-custom>' + minified + '</style>';
     };
 
-    if (src.indexOf('//') === -1) {
-      path = options.cwd + '/' + src;
-      if (fs.existsSync(path)) {
-        file = setFile(String(fs.readFileSync(path)));
-      }
-    }
-    else if (src.indexOf('//') != -1) {
-      file = setFile(String(request(path).data));
-    };
+		try {
+			if (src.indexOf('//') === -1) {
+				path = options.cwd + '/' + src;
+				if (fs.existsSync(path)) {
+					file = setFile(String(fs.readFileSync(path)));
+				}
+			}
+			else if (src.indexOf('//') != -1) {
+				file = setFile(String(request(path).data));
+			};
+		} catch (err) {
+			console.dir(err);	
+		}
 
     $(this).replaceWith(file);
   });
