@@ -35,10 +35,14 @@ module.exports = function(html, options) {
 
   /* head */
 
+  /* main amp library */
+  $('head script[src="https://cdn.ampproject.org/v0.js"]').remove();
+  $('head').prepend('<script async src="https://cdn.ampproject.org/v0.js"></script>');
+
   /* meta charset */
-  if ($('head meta[charset="utf-8"]').length === 0) {
-    $('head').append('<meta charset="utf-8">');
-  }
+  $('head meta[charset="utf-8"]').remove();
+  $('head meta[charset="UTF-8"]').remove();
+  $('head').prepend('<meta charset="utf-8">');
 
   /* meta viewport */
   if ($('head meta[content="width=device-width,minimum-scale=1,initial-scale=1"]').length === 0) {
@@ -58,6 +62,9 @@ module.exports = function(html, options) {
   /* img dimensions */
   $('img:not(width):not(height)').each(function() {
     var src = $(this).attr('src');
+    if (!src) {
+      return $(this).remove();
+    }
     if (src.indexOf('//') === -1) {
       var image = options.cwd + '/' + $(this).attr('src');
       if (fs.existsSync(image)) {
