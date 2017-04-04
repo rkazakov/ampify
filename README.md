@@ -11,23 +11,35 @@ npm install ampify --save-dev
 
 ## Usage
 
+```js
+const ampify = require('ampify');
+const html = 'YOUR_HTML_CONTENT';
+const amp = ampify(html, {cwd: 'amp'});
+
+console.log(amp) // Content of AMP HTML
+```
 
 ## Options
 ### cwd
-**Assets (images/styles) file path**<br>
-Type: `String`<br>
+**Assets (images/styles) file path**
+Type: `String`
 Default: `''`
 
 ### round
-**Enable images dimensions rounding**<br>
-Type: `String`<br>
+**Enable images dimensions rounding**
+Type: `String`
 Default: `true`
 
 ## Example
 
 ### Input
 ```html
-<html><head><link rel="stylesheet" href="style.css"></head><img src="image.png"></html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <img src="image.png">
+</html>
 ```
 
 ###### image.png
@@ -48,7 +60,7 @@ body {
 ## Release History
 
 * 0.2.4
-	* UPDATE: package.json
+  * UPDATE: package.json
 * 0.2.3
     * ADD: meta tag viewport
     * ADD: style amp-boilerplate
