@@ -35,10 +35,10 @@ Default: `true`
 ### Input
 ```html
 <html>
-  <head>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <img src="image.png">
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<img src="image.png">
 </html>
 ```
 
@@ -48,7 +48,7 @@ Default: `true`
 ###### style.css
 ```css
 body {
-  background-color: #FFF;
+  background-color: #fff;
 }
 ```
 
@@ -56,7 +56,7 @@ body {
 ```html
 <html amp="">
 	<head>
-		<style amp-custom="">body{background-color:#FFF}</style>
+		<style amp-custom="">body{background-color:#fff}</style>
 	</head>
 	<amp-img src="image.png" width="600" height="400"></amp-img>
 </html>
@@ -64,6 +64,8 @@ body {
 
 ## Release History
 
+* 0.2.6
+	* UPDATE: unit tests
 * 0.2.5
 	* UPDATE: head tag charset order
 	* UPDATE: remove invalid img tag
