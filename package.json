@@ -1,6 +1,6 @@
 {
   "name": "ampify",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Convert plain HTML to Google Accelerated Mobile Pages (AMP)",
   "main": "index.js",
   "author": {
