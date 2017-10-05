@@ -25,14 +25,14 @@ console.log(amp); // Content of AMP HTML
 ### cwd
 
 **Assets (images/styles) file path**
-Type: `String`
-Default: `''`
+- Type: `String`
+- Default: `''`
 
 ### round
 
 **Enable images dimensions rounding**
-Type: `String`
-Default: `true`
+- Type: `String`
+- Default: `true`
 
 ## Example
 
