@@ -1,6 +1,7 @@
 # ampify
 [![NPM Version][npm-image]][npm-url]
 [![Downloads Stats][npm-downloads]][npm-url]
+[![Known Vulnerabilities](https://snyk.io/test/github/rkazakov/ampify/badge.svg)](https://snyk.io/test/github/rkazakov/ampify)
 
 > Convert plain HTML to Google Accelerated Mobile Pages (AMP).
 
@@ -91,7 +92,7 @@ body {
 	* Work in progress
 
 ## Licence
-MIT (c) Ruslan Kazakov
+MIT (c) Ruslan Kazakov and [contributors](https://github.com/rkazakov/ampify/graphs/contributors)
 
 [PostXML]: https://github.com/postxml/postxml
 [npm-url]: https://www.npmjs.org/package/ampify
