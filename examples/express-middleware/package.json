@@ -1,0 +1,16 @@
+{
+  "name": "express-middleware",
+  "version": "1.0.0",
+  "description": "Ampify Express middleware example",
+  "main": "express-middleware.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ampify": "^0.2.6",
+    "express": "^4.16.1"
+  }
+}

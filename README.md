@@ -20,45 +20,16 @@ const amp = ampify(html, {cwd: 'amp'});
 console.log(amp); // Content of AMP HTML
 ```
 
-## Simple Express App
-
-```js
-const ampify = require('ampify');
-const express = require('express');
-
-const app = express();
-
-app.get('/', function (req, res) {
-  const html = `
-    <html>
-      <head>
-      <title>AMP page</title>
-      </head>
-      <body>
-        <div>
-          <p>This is text</p>
-        </div>
-      </body>
-    </html>
-  `;
-
-  const amp = ampify(html, {cwd: 'amp'});
-
-  res.send(amp); // Serving AMP HTML 
-});
-
-app.listen(3000, function () {
-  console.log('Listening on port 3000!');
-});
-```
-
 ## Options
+
 ### cwd
+
 **Assets (images/styles) file path**
 Type: `String`
 Default: `''`
 
 ### round
+
 **Enable images dimensions rounding**
 Type: `String`
 Default: `true`
@@ -93,6 +64,97 @@ body {
   </head>
   <amp-img src="image.png" width="600" height="400"></amp-img>
 </html>
+```
+
+## More examples
+
+See `/examples` folder for full source code.
+
+### Using in Express App
+
+```js
+const ampify = require('ampify');
+const express = require('express');
+
+const app = express();
+
+app.get('/article', (req, res) => {
+  const html = `
+    <html>
+      <head>
+      <title>AMP page</title>
+      </head>
+      <body>
+        <div>
+          <p>This is an AMP article</p>
+        </div>
+      </body>
+    </html>
+  `;
+
+  const amp = ampify(html, {cwd: 'amp'});
+  res.send(amp); // serving AMP content
+});
+
+app.listen(3000, () => {
+  console.log('Listening on port 3000!');
+});
+```
+
+### Using as Express middleware
+
+```js
+const ampify = require('ampify');
+const express = require('express');
+
+const app = express();
+
+app.use((req, res, next) => {
+  if (req.url.startsWith('/amp')) {
+    const send = res.send;
+    res.send = function (html) {
+    const amp = ampify(html, {cwd: 'amp'});
+      send.call(this, amp);
+    };
+  }
+  next();
+});
+
+app.get('/amp/article', (req, res) => {
+  const html = `
+    <html>
+      <head>
+        <title>AMP page</title>
+      </head>
+      <body>
+        <div>
+          <p>This is AMP article</p>
+        </div>
+      </body>
+    </html>
+  `;
+  res.send(html);
+});
+
+app.get('/article', (req, res) => {
+  const html = `
+    <html>
+      <head>
+        <title>HMTL page</title>
+      </head>
+      <body>
+        <div>
+          <p>This is HTML article</p>
+        </div>
+      </body>
+    </html>
+  `;
+  res.send(html);
+});
+
+app.listen(3000, () => {
+  console.log('Listening on port 3000!');
+});
 ```
 
 ## Release History
