@@ -101,7 +101,7 @@ module.exports = function(html, options) {
 				}
 			}
 			else if (src.indexOf('//') != -1) {
-				file = setFile(String(request('GET', path).data));
+				file = setFile(String(request('GET', path).body));
 			};
 		} catch (err) {
 			console.dir(err);	
