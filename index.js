@@ -44,6 +44,24 @@ module.exports = function(html, options) {
   $('head meta[charset="UTF-8"]').remove();
   $('head').prepend('<meta charset="utf-8">');
 
+  /* google analytics */
+  $('script').each(function() {
+    var src = $(this).attr('src');
+    if (src) {
+      var trackingId = src.match(/\bUA-\d{4,10}-\d{1,4}\b/);
+      if (trackingId) {
+        $(this).remove();
+        $('head').prepend('<script async custom-element="amp-analytics"src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>');
+        $('body').append(`<amp-analytics type="googleanalytics"> <script type="application/json"> {   "vars": {     "account": "${trackingId}"   },   "triggers": {     "trackPageview": {       "on": "visible",       "request": "pageview"     }   } } </script> </amp-analytics>`);
+      }
+    }
+
+    var scriptContent = $(this).html();
+    if (scriptContent && scriptContent.match(/function gtag\(\){dataLayer\.push\(arguments\);}/)) {
+      $(this).remove();
+    }
+  });
+
   /* meta viewport */
   if ($('head meta[content="width=device-width,minimum-scale=1,initial-scale=1"]').length === 0) {
     $('head').append('<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">');
@@ -53,6 +71,8 @@ module.exports = function(html, options) {
   if ($('head style[amp-boilerplate]').length === 0) {
     $('head').append('<style amp-boilerplate="">body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate="">body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>');
   }
+
+
 
   /* img dimensions */
   $('img:not(width):not(height)').each(function() {
@@ -104,7 +124,7 @@ module.exports = function(html, options) {
 				file = setFile(String(request(path).data));
 			};
 		} catch (err) {
-			console.dir(err);	
+			console.dir(err);
 		}
 
     $(this).replaceWith(file);
