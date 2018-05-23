@@ -1,7 +1,7 @@
 var cheerio = require('cheerio');
 var fs = require('fs');
 var sizeOf = require('image-size');
-var request = require('sync-request');
+var request = require('request');
 var cleanCss = require('clean-css');
 
 module.exports = function(html, options) {
