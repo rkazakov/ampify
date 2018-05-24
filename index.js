@@ -3,13 +3,14 @@ var fs = require('fs');
 var sizeOf = require('image-size');
 var request = require('request');
 var cleanCss = require('clean-css');
+const url = require('url');
 
-module.exports = function(html, options) {
+module.exports = function (html, options) {
   var tags = {
     amp: ['img', 'video']
   };
 
-  var $, round;
+  var $, round, youtube = false;
   var options = options || {};
 
   options.normalizeWhitespace = options.normalizeWhitespace || false;
@@ -22,14 +23,14 @@ module.exports = function(html, options) {
   $ = cheerio.load(html, options);
 
   if (options.round) {
-    round = function(numb) { return Math.round(numb / 5) * 5; }
+    round = function (numb) { return Math.round(numb / 5) * 5; }
   }
   else {
-    round = function(numb) { return numb; }
+    round = function (numb) { return numb; }
   }
 
   /* html ⚡ */
-  $('html').each(function() {
+  $('html').each(function () {
     $(this).attr('amp', '');
   });
 
@@ -55,7 +56,7 @@ module.exports = function(html, options) {
   }
 
   /* img dimensions */
-  $('img:not(width):not(height)').each(function() {
+  $('img:not(width):not(height)').each(function () {
     var src = $(this).attr('src');
     if (!src) {
       return $(this).remove();
@@ -65,8 +66,8 @@ module.exports = function(html, options) {
       if (fs.existsSync(image)) {
         var size = sizeOf(image);
         $(this).attr({
-            width: round(size.width),
-            height: round(size.height)
+          width: round(size.width),
+          height: round(size.height)
         });
       }
     }
@@ -84,7 +85,7 @@ module.exports = function(html, options) {
   });
 
   /* inline styles */
-  $('link[rel=stylesheet]').each(function() {
+  $('link[rel=stylesheet]').each(function () {
     var src = $(this).attr('href');
     var path = src;
     var file = '';
@@ -106,12 +107,26 @@ module.exports = function(html, options) {
 		} catch (err) {
 			console.dir(err);	
 		}
-
     $(this).replaceWith(file);
   });
 
+  /* youtube iframe */
+  $('iframe[src*="www.youtube.com"]').each(function () {
+    youtube = true;
+
+    let src = $(this).attr('src');
+    let path = url.parse(src).pathname.split('/');
+    let ampYoutube = '<amp-youtube data-videoid="' + path[path.length - 1] + '" layout="responsive" height="190" width="300"></amp-youtube>';
+
+    $(this).replaceWith(ampYoutube);
+  });
+
+  if (youtube) {
+    $('head').prepend('<script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js">');
+  }
+
   /* amp tags */
-  $(tags.amp.join(',')).each(function() {
+  $(tags.amp.join(',')).each(function () {
     this.name = 'amp-' + this.name;
   });
 
