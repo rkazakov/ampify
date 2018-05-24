@@ -1,15 +1,16 @@
 var cheerio = require('cheerio');
 var fs = require('fs');
 var sizeOf = require('image-size');
-var request = require('sync-request');
+var request = require('request');
 var cleanCss = require('clean-css');
+const url = require('url');
 
-module.exports = function(html, options) {
+module.exports = function (html, options) {
   var tags = {
     amp: ['img', 'video']
   };
 
-  var $, round;
+  var $, round, youtube = false;
   var options = options || {};
 
   options.normalizeWhitespace = options.normalizeWhitespace || false;
@@ -22,14 +23,14 @@ module.exports = function(html, options) {
   $ = cheerio.load(html, options);
 
   if (options.round) {
-    round = function(numb) { return Math.round(numb / 5) * 5; }
+    round = function (numb) { return Math.round(numb / 5) * 5; }
   }
   else {
-    round = function(numb) { return numb; }
+    round = function (numb) { return numb; }
   }
 
   /* html ⚡ */
-  $('html').each(function() {
+  $('html').each(function () {
     $(this).attr('amp', '');
   });
 
@@ -72,10 +73,10 @@ module.exports = function(html, options) {
     $('head').append('<style amp-boilerplate="">body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate="">body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>');
   }
 
-
+  /* body */
 
   /* img dimensions */
-  $('img:not(width):not(height)').each(function() {
+  $('img:not(width):not(height)').each(function () {
     var src = $(this).attr('src');
     if (!src) {
       return $(this).remove();
@@ -85,8 +86,8 @@ module.exports = function(html, options) {
       if (fs.existsSync(image)) {
         var size = sizeOf(image);
         $(this).attr({
-            width: round(size.width),
-            height: round(size.height)
+          width: round(size.width),
+          height: round(size.height)
         });
       }
     }
@@ -104,7 +105,7 @@ module.exports = function(html, options) {
   });
 
   /* inline styles */
-  $('link[rel=stylesheet]').each(function() {
+  $('link[rel=stylesheet]').each(function () {
     var src = $(this).attr('href');
     var path = src;
     var file = '';
@@ -121,17 +122,36 @@ module.exports = function(html, options) {
 				}
 			}
 			else if (src.indexOf('//') != -1) {
-				file = setFile(String(request(path).data));
+				file = setFile(String(request('GET', path).body));
 			};
 		} catch (err) {
 			console.dir(err);
 		}
-
     $(this).replaceWith(file);
   });
 
+  /* youtube */
+  $('iframe[src*="http://www.youtube.com"]').each(function () {
+    youtube = true;
+    const src = $(this).attr('src');
+    const width = $(this).attr('width');
+    const height = $(this).attr('height');
+    const path = url.parse(src).pathname.split('/');
+    const ampYoutube = `<amp-youtube
+      data-videoid="${path[path.length - 1]}"
+      width="${width}"
+      height="${height}"
+      layout="responsive">
+    </amp-youtube>`;
+    $(this).replaceWith(ampYoutube);
+  });
+
+  if (youtube) {
+    $('head').prepend('<script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js">');
+  }
+
   /* amp tags */
-  $(tags.amp.join(',')).each(function() {
+  $(tags.amp.join(',')).each(function () {
     this.name = 'amp-' + this.name;
   });
 
