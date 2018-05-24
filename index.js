@@ -55,6 +55,8 @@ module.exports = function (html, options) {
     $('head').append('<style amp-boilerplate="">body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate="">body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>');
   }
 
+  /* body */
+
   /* img dimensions */
   $('img:not(width):not(height)').each(function () {
     var src = $(this).attr('src');
@@ -105,19 +107,24 @@ module.exports = function (html, options) {
 				file = setFile(String(request('GET', path).body));
 			};
 		} catch (err) {
-			console.dir(err);	
+			console.dir(err);
 		}
     $(this).replaceWith(file);
   });
 
-  /* youtube iframe */
-  $('iframe[src*="www.youtube.com"]').each(function () {
+  /* youtube */
+  $('iframe[src*="http://www.youtube.com"]').each(function () {
     youtube = true;
-
-    let src = $(this).attr('src');
-    let path = url.parse(src).pathname.split('/');
-    let ampYoutube = '<amp-youtube data-videoid="' + path[path.length - 1] + '" layout="responsive" height="190" width="300"></amp-youtube>';
-
+    const src = $(this).attr('src');
+    const width = $(this).attr('width');
+    const height = $(this).attr('height');
+    const path = url.parse(src).pathname.split('/');
+    const ampYoutube = `<amp-youtube
+      data-videoid="${path[path.length - 1]}"
+      width="${width}"
+      height="${height}"
+      layout="responsive">
+    </amp-youtube>`;
     $(this).replaceWith(ampYoutube);
   });
 
