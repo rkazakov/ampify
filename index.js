@@ -1,7 +1,7 @@
 var cheerio = require('cheerio');
 var fs = require('fs');
 var sizeOf = require('image-size');
-var request = require('sync-request');
+var request = require('request');
 var cleanCss = require('clean-css');
 const url = require('url');
 
@@ -94,20 +94,19 @@ module.exports = function (html, options) {
       return '<style amp-custom>' + minified + '</style>';
     };
 
-    try {
-      if (src.indexOf('//') === -1) {
-        path = options.cwd + '/' + src;
-        if (fs.existsSync(path)) {
-          file = setFile(String(fs.readFileSync(path)));
-        }
-      }
-      else if (src.indexOf('//') != -1) {
-        file = setFile(String(request(path).data));
-      };
-    } catch (err) {
-      console.dir(err);
-    }
-
+		try {
+			if (src.indexOf('//') === -1) {
+				path = options.cwd + '/' + src;
+				if (fs.existsSync(path)) {
+					file = setFile(String(fs.readFileSync(path)));
+				}
+			}
+			else if (src.indexOf('//') != -1) {
+				file = setFile(String(request('GET', path).body));
+			};
+		} catch (err) {
+			console.dir(err);	
+		}
     $(this).replaceWith(file);
   });
 
