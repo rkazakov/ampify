@@ -3,6 +3,7 @@
 [![NPM Version][npm-image]][npm-url]
 [![Downloads Stats][npm-downloads]][npm-url]
 [![Known Vulnerabilities](https://snyk.io/test/github/rkazakov/ampify/badge.svg)](https://snyk.io/test/github/rkazakov/ampify)
+[![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
 
 > Convert plain HTML to Google AMP (Accelerated Mobile Pages)
 

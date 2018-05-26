@@ -16,7 +16,8 @@
   ],
   "license": "MIT",
   "scripts": {
-    "test": "mocha ./test/*.test.js",
+    "test": "node_modules/.bin/jest",
+    "test:watch": "node_modules/.bin/jest --watchAll",
     "lint": "jshint . && jscs ."
   },
   "repository": {
@@ -34,9 +35,8 @@
     "sync-request": "^4.0.2"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "gulp-eslint": "^3.0.1",
-    "gulp-mocha": "^4.3.0"
+    "jest": "^22.4.4"
   }
 }
