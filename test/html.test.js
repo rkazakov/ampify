@@ -1,13 +1,11 @@
-const test = require('./ampify-assertion');
+const assert = require('./ampify-assertion');
 
-describe('html amp tag', function() {
-
-  it('should add amp attribute on html tag', function() {
-    test(
+describe('html amp tag', () => {
+  test('should add amp attribute on html tag', () => {
+    assert(
       '<html></html>',
       '<html amp=""></html>',
-      {}
+      {},
     );
   });
-
 });

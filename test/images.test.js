@@ -1,31 +1,28 @@
 const path = require('path');
-const test = require('./ampify-assertion');
+const assert = require('./ampify-assertion');
 
-describe('amp-img tag', function() {
-
-  it('should replace img tag with amp-img', function() {
-    test(
+describe('amp-img tag', () => {
+  test('should replace img tag with amp-img', () => {
+    assert(
       '<img src="image.png" width="600" height="400">',
       '<amp-img src="image.png" width="600" height="400"></amp-img>',
-      {}
+      {},
     );
-
   });
 
-  it('should add width and height attributes on amp-img tag', function() {
-    test(
+  test('should add width and height attributes on amp-img tag', () => {
+    assert(
       '<img src="image.png">',
       '<amp-img src="image.png" width="600" height="400"></amp-img>',
-      {cwd: __dirname.split(path.sep).pop()}
+      { cwd: __dirname.split(path.sep).pop() },
     );
   });
 
-  it('should remove invalid img tag', function() {
-    test(
+  test('should remove invalid img tag', () => {
+    assert(
       '<img>',
       '',
-      {}
+      {},
     );
   });
-
 });

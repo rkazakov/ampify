@@ -1,8 +1,8 @@
-const test = require('./ampify-assertion');
+const assert = require('./ampify-assertion');
 
 describe('amp-youtube tag', () => {
-  it('should replace youtube iframe tag with amp-youtube', () => {
-    test(
+  test('should replace youtube iframe tag with amp-youtube', () => {
+    assert(
       `<html>
         <head></head>
         <body><iframe
