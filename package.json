@@ -12,10 +12,13 @@
     "transform",
     "amp",
     "amp-img",
-    "amp-video"
+    "amp-video",
+    "amp-youtube",
+    "amp-analytics"
   ],
   "license": "MIT",
   "scripts": {
+    "coverage": "node_modules/.bin/jest --coverage",
     "lint": "node_modules/.bin/eslint src test",
     "test": "node_modules/.bin/jest",
     "test:watch": "node_modules/.bin/jest --watchAll"
@@ -32,6 +35,7 @@
     "cheerio": "^0.22.0",
     "clean-css": "^4.0.11",
     "image-size": "^0.5.1",
+    "request": "^2.87.0",
     "sync-request": "^4.0.2"
   },
   "devDependencies": {

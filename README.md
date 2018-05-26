@@ -8,6 +8,7 @@
 > Convert plain HTML to Google AMP (Accelerated Mobile Pages)
 
 ## Installation
+
 ```sh
 npm install ampify --save
 ```
@@ -25,32 +26,37 @@ console.log(amp); // Content of AMP HTML
 
 ### cwd
 
-**Assets (images/styles) file path**
+### Assets (images/styles) file path
+
 - Type: `String`
 - Default: `''`
 
 ### round
 
-**Enable images dimensions rounding**
+### Enable images dimensions rounding
+
 - Type: `String`
 - Default: `true`
 
 ## Example
 
 ### Input
+
 ```html
 <html>
   <head>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
   </head>
   <img src="image.png">
 </html>
 ```
 
-###### image.png
+#### image.png
+
 [image.png](/test/image.png)
 
-###### style.css
+#### style.css
+
 ```css
 body {
   background-color: #fff;
@@ -58,6 +64,7 @@ body {
 ```
 
 ### Output
+
 ```html
 <html amp="">
   <head>
@@ -163,6 +170,7 @@ app.listen(3000, () => {
 [HISTORY](./HISTORY.md)
 
 ## Licence
+
 MIT (c) Ruslan Kazakov and [contributors](https://github.com/rkazakov/ampify/graphs/contributors)
 
 [PostXML]: https://github.com/postxml/postxml
