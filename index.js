@@ -45,6 +45,24 @@ module.exports = function (html, options) {
   $('head meta[charset="UTF-8"]').remove();
   $('head').prepend('<meta charset="utf-8">');
 
+  /* google analytics */
+  $('script').each(function() {
+    var src = $(this).attr('src');
+    if (src) {
+      var trackingId = src.match(/\bUA-\d{4,10}-\d{1,4}\b/);
+      if (trackingId) {
+        $(this).remove();
+        $('head').prepend('<script async custom-element="amp-analytics"src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>');
+        $('body').append(`<amp-analytics type="googleanalytics"><script type="application/json">{"vars":{"account":"${trackingId}"},"triggers":{"trackPageview":{"on":"visible","request":"pageview"}}}</script></amp-analytics>`);
+      }
+    }
+
+    var scriptContent = $(this).html();
+    if (scriptContent && scriptContent.match(/function gtag\(\){dataLayer\.push\(arguments\);}/)) {
+      $(this).remove();
+    }
+  });
+
   /* meta viewport */
   if ($('head meta[content="width=device-width,minimum-scale=1,initial-scale=1"]').length === 0) {
     $('head').append('<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">');

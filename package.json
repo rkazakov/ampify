@@ -16,7 +16,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha ./test/*.test.js",
     "lint": "jshint . && jscs ."
   },
   "repository": {
