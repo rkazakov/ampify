@@ -1,9 +1,9 @@
-var cheerio = require('cheerio');
-var fs = require('fs');
-var sizeOf = require('image-size');
-var request = require('request');
-var cleanCss = require('clean-css');
+const fs = require('fs');
 const url = require('url');
+const cheerio = require('cheerio');
+const request = require('request');
+const sizeOf = require('image-size');
+const cleanCss = require('clean-css');
 
 module.exports = function (html, options) {
   var tags = {
@@ -149,7 +149,8 @@ module.exports = function (html, options) {
     const width = $(this).attr('width');
     const height = $(this).attr('height');
     const path = url.parse(src).pathname.split('/');
-    const ampYoutube = `<amp-youtube
+    const ampYoutube = `
+    <amp-youtube
       data-videoid="${path[path.length - 1]}"
       width="${width}"
       height="${height}"
