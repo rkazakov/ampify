@@ -1,5 +1,5 @@
-const ampify = require('ampify');
 const express = require('express');
+const ampify = require('../../index');
 
 const app = express();
 

@@ -53,10 +53,22 @@ module.exports = function (html, options) {
       if (trackingId) {
         $(this).remove();
         $('head').prepend('<script async custom-element="amp-analytics"src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>');
-        $('body').append(`<amp-analytics type="googleanalytics"><script type="application/json">{"vars":{"account":"${trackingId}"},"triggers":{"trackPageview":{"on":"visible","request":"pageview"}}}</script></amp-analytics>`);
+        $('body').append(`<amp-analytics type="googleanalytics">
+          <script type="application/json">
+            { "vars": {
+                "account": "${trackingId}"
+              },
+              "triggers": {
+                "trackPageview": {
+                  "on": "visible",
+                  "request": "pageview"
+                }
+              }
+            }
+          </script>
+        </amp-analytics>`);
       }
     }
-
     var scriptContent = $(this).html();
     if (scriptContent && scriptContent.match(/function gtag\(\){dataLayer\.push\(arguments\);}/)) {
       $(this).remove();

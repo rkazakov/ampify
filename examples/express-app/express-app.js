@@ -1,5 +1,5 @@
-const ampify = require('../../index');
 const express = require('express');
+const ampify = require('../../index');
 
 const app = express();
 
@@ -7,7 +7,14 @@ app.get('/article', (req, res) => {
 	const html = `
     <html>
       <head>
-      <title>AMP page</title>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123456789-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'UA-123456789-1');
+        </script>
+        <title>AMP page</title>
       </head>
       <body>
         <div>
