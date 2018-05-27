@@ -19,7 +19,7 @@
   "license": "MIT",
   "scripts": {
     "coverage": "node_modules/.bin/jest --coverage",
-    "lint": "node_modules/.bin/eslint src test",
+    "lint": "node_modules/.bin/eslint ./*.js test",
     "test": "node_modules/.bin/jest",
     "test:watch": "node_modules/.bin/jest --watchAll"
   },
