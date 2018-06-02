@@ -1,10 +1,10 @@
 const express = require('express');
-const ampify = require('../../index');
+const ampify = require('ampify');
 
 const app = express();
 
 app.get('/article', (req, res) => {
-	const html = `
+  const html = `
     <html>
       <head>
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123456789-1"></script>
@@ -26,10 +26,10 @@ app.get('/article', (req, res) => {
     </html>
   `;
 
-	const amp = ampify(html, {cwd: 'amp'});
-	res.send(amp); // serving AMP content
+  const amp = ampify(html, { cwd: 'amp' });
+  res.send(amp); // serving AMP content
 });
 
 app.listen(5000, () => {
-	console.log('Listening on port 5000!');
+  console.log('Listening on port 5000!');
 });
