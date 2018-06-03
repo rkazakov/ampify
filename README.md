@@ -2,8 +2,11 @@
 
 [![NPM Version][npm-image]][npm-url]
 [![Downloads Stats][npm-downloads]][npm-url]
+
+[![Build Status](https://travis-ci.org/rkazakov/ampify.svg?branch=master)](https://travis-ci.org/rkazakov/ampify)
+[![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
 [![Known Vulnerabilities](https://snyk.io/test/github/rkazakov/ampify/badge.svg)](https://snyk.io/test/github/rkazakov/ampify)
-[![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest) [![Greenkeeper badge](https://badges.greenkeeper.io/rkazakov/ampify.svg)](https://greenkeeper.io/)
+[![Greenkeeper badge](https://badges.greenkeeper.io/rkazakov/ampify.svg)](https://greenkeeper.io/)
 
 > Convert plain HTML to Google AMP (Accelerated Mobile Pages)
 
