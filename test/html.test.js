@@ -1,4 +1,4 @@
-const assert = require('./ampify-assertion');
+const assert = require('./assert');
 
 describe('html amp tag', () => {
   test('should add amp attribute on html tag', () => {

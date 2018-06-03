@@ -1,4 +1,4 @@
-const assert = require('./ampify-assertion');
+const assert = require('./assert');
 
 describe('amp-video tag', () => {
   test('should replace video tag with amp-video', () => {

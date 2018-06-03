@@ -1,5 +1,5 @@
 const path = require('path');
-const assert = require('./ampify-assertion');
+const assert = require('./assert');
 
 describe('amp-img tag', () => {
   test('should replace img tag with amp-img', () => {

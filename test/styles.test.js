@@ -1,5 +1,5 @@
 const path = require('path');
-const assert = require('./ampify-assertion');
+const assert = require('./assert');
 
 describe('inline styles', () => {
   test('should inject inline css into style tag', () => {

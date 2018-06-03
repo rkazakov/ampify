@@ -1,4 +1,4 @@
-const assert = require('./ampify-assertion');
+const assert = require('./assert');
 
 describe('head tag', () => {
   describe('meta charset tag', () => {
