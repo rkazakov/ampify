@@ -25,4 +25,12 @@ describe('amp-img tag', () => {
       {},
     );
   });
+
+  test('should respect width and height', () => {
+    assert(
+      '<img src="image.png" width="300" height="200">',
+      '<amp-img src="image.png" width="300" height="200"></amp-img>',
+      { cwd: __dirname.split(path.sep).pop() },
+    );
+  });
 });
