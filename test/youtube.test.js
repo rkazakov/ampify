@@ -47,7 +47,7 @@ describe('amp-youtube tag', () => {
         </html>`,
       {},
     );
-  })
+  });
 
   test('should replace http://youtu.be/', () => {
     assert(
@@ -71,7 +71,7 @@ describe('amp-youtube tag', () => {
         </html>`,
       {},
     );
-  })
+  });
 
   test('should replace https://youtu.be/', () => {
     assert(
@@ -95,5 +95,5 @@ describe('amp-youtube tag', () => {
         </html>`,
       {},
     );
-  })
+  });
 });
