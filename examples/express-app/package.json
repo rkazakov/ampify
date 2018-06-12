@@ -1,6 +1,6 @@
 {
   "name": "express-app",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Ampify Express App example",
   "main": "express-app.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "ampify": "^0.3.0",
+    "ampify": "^0.4.0",
     "express": "^4.16.1"
   }
 }
