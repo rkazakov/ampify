@@ -1,5 +1,8 @@
 # Release History
 
+* 0.4.0
+  * ADD: `amp-youtube` handles different versions of youtube links inclusing https
+  * BUG: images css selector
 * 0.3.0
   * ADD: `amp-youtube`
   * ADD: `amp-analytics` (Google Analytics)
@@ -13,7 +16,7 @@
   * UPDATE: unit tests
 * 0.2.5
   * UPDATE: head tag charset order
-  * UPDATE: remove invalid img tag
+  * UPDATE: remove invalid `img` tag
   * UPDATE: unit tests
   * UPDATE: readme documentation
   * UPDATE: package.json
@@ -23,7 +26,7 @@
   * ADD: `meta` tag viewport
   * ADD: style amp-boilerplate
 * 0.2.2
-  * ADD: meta tag charset
+  * ADD: `meta` tag charset
   * ADD: AMP library `script` tag
   * BUG: Options parameter not passing
 * 0.2.1
