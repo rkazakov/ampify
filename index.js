@@ -86,7 +86,7 @@ module.exports = (html, options) => {
   /* body */
 
   /* img dimensions */
-  $('img:not(width):not(height)').each((index, element) => {
+  $('img:not([width]):not([height])').each((index, element) => {
     const src = $(element).attr('src');
     if (!src) {
       return $(element).remove();
@@ -139,7 +139,7 @@ module.exports = (html, options) => {
   });
 
   /* youtube */
-  $('iframe[src*="http://www.youtube.com"]').each((index, element) => {
+  $('iframe[src*="http://www.youtube.com"],iframe[src*="https://www.youtube.com"],iframe[src*="http://youtu.be/"],iframe[src*="https://youtu.be/"]').each((index, element) => {
     youtube = true;
     const src = $(element).attr('src');
     const width = $(element).attr('width');
