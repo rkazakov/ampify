@@ -33,4 +33,12 @@ describe('amp-img tag', () => {
       { cwd: __dirname.split(path.sep).pop() },
     );
   });
+
+  test('should not change element order or remove next element', () => {
+    assert(
+      '<div><p>1</p><img src="image.png" width="300" height="200"><p>2</p></div>',
+      '<div><p>1</p><amp-img src="image.png" width="300" height="200"></amp-img><p>2</p></div>',
+      { cwd: __dirname.split(path.sep).pop() },
+    );
+  });
 });

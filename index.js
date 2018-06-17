@@ -164,7 +164,7 @@ module.exports = (html, options) => {
     const ampElement = Object.assign(element, {
       name: `amp-${element.name}`,
     });
-    $(element).replaceWith(ampElement);
+    $(element).html($(ampElement).html());
   });
 
   return $.html();
