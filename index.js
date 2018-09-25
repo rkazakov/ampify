@@ -1,5 +1,6 @@
 const fs = require('fs');
 const url = require('url');
+const axios = require('axios');
 const cheerio = require('cheerio');
 const request = require('request');
 const sizeOf = require('image-size');
@@ -10,6 +11,7 @@ module.exports = (html, options) => {
     amp: ['img', 'video'],
   };
 
+  let styles = false;
   let youtube = false;
 
   const cheerioOptions = options || {
@@ -114,31 +116,38 @@ module.exports = (html, options) => {
   });
 
   /* inline styles */
-  $('link[rel=stylesheet]').each((index, element) => {
-    const src = $(element).attr('href');
-    let path = src;
-    let file = '';
-    const setFile = (data) => {
-      const minified = new CleanCss().minify(data).styles;
-      return `<style amp-custom>${minified}</style>`;
-    };
+  const cssStyles = [];
 
+  $('link[rel=stylesheet]').each((index, element) => {
+    styles = true;
+    const src = $(element).attr('href');
     try {
       if (src.indexOf('//') === -1) {
-        path = `${options.cwd}/${src}`;
+        const path = `${options.cwd}/${src}`;
         if (fs.existsSync(path)) {
-          file = setFile(String(fs.readFileSync(path)));
+          const cssFromFile = fs.readFileSync(path);
+          const minifiedCss = new CleanCss().minify(cssFromFile).styles;
+          cssStyles.push(minifiedCss);
         }
       } else if (src.indexOf('//') !== -1) {
-        file = setFile(String(request('GET', path).body));
+        console.log('-----------------', src);
+        axios.get(src).then((response) => {
+          console.log('-----------------', response);
+          // file = setFile(String(request('GET', path).body));
+        });
       }
     } catch (err) {
       console.dir(err);
     }
-    $(element).replaceWith(file);
+    $(element).remove();
   });
 
+  if (styles) {
+    $('head').prepend(`<style amp-custom>${cssStyles.join('')}</style>`);
+  }
+
   /* youtube */
+
   $('iframe[src*="http://www.youtube.com"],iframe[src*="https://www.youtube.com"],iframe[src*="http://youtu.be/"],iframe[src*="https://youtu.be/"]').each((index, element) => {
     youtube = true;
     const src = $(element).attr('src');
