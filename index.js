@@ -5,7 +5,7 @@ const request = require('request');
 const sizeOf = require('image-size');
 const CleanCss = require('clean-css');
 
-module.exports = (html, options) => {
+module.exports = (html, options, canonicalURL) => {
   const tags = {
     amp: ['img', 'video'],
   };
@@ -41,6 +41,10 @@ module.exports = (html, options) => {
   $('head meta[charset="utf-8"]').remove();
   $('head meta[charset="UTF-8"]').remove();
   $('head').prepend('<meta charset="utf-8">');
+
+  if (canonicalURL) {
+    $('head').append(`<link rel="canonical" href="${canonicalURL}">`);
+  }
 
   /* google analytics */
   $('script').each((index, element) => {
