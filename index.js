@@ -120,7 +120,6 @@ module.exports = (html, options) => {
     let path = src;
     const setFile = (data) => {
       return new CleanCss().minify(data).styles;
-      // return `<style amp-custom>${minified}</style>`;
     };
 
     try {
