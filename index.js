@@ -101,8 +101,9 @@ module.exports = (html, options) => {
         });
       }
     } else if (src.indexOf('//') !== -1) {
-      const imageUrl = element.attribs.src;
-      const response = request('GET', imageUrl);
+      let imageUrl = element.attribs.src;
+      imageUrl  = imageUrl.startsWith('//') ? `https:${imageUrl}` : imageUrl;
+      const response = request.get(imageUrl);
       if (response.statusCode === 200) {
         const size = sizeOf(response.body);
         $(element).attr({
@@ -130,7 +131,8 @@ module.exports = (html, options) => {
           file = setFile(String(fs.readFileSync(path)));
         }
       } else if (src.indexOf('//') !== -1) {
-        file = setFile(String(request('GET', path).body));
+        const path  = path.startsWith('//') ? `https:${imageUrl}` : imageUrl;
+        file = setFile(String(request.get(path).body));
       }
     } catch (err) {
       console.dir(err);
