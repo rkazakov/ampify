@@ -34,7 +34,7 @@
   "dependencies": {
     "cheerio": "^0.22.0",
     "clean-css": "^4.1.11",
-    "image-size": "^0.6.2",
+    "image-size": "^0.7.2",
     "request": "^2.87.0"
   },
   "devDependencies": {
