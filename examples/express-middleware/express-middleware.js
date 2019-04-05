@@ -6,8 +6,8 @@ const app = express();
 app.use((req, res, next) => {
   if (req.url.startsWith('/amp')) {
     const { send } = res;
-    res.send = (html) => {
-      const amp = ampify(html, { cwd: 'amp' });
+    res.send = async (html) => {
+      const amp = await ampify(html, { cwd: 'amp' });
       send.call(this, amp);
     };
   }
