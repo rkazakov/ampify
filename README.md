@@ -89,7 +89,7 @@ const express = require('express');
 
 const app = express();
 
-app.get('/article', (req, res) => {
+app.get('/article', async (req, res) => {
   const html = `
     <html>
       <head>
@@ -103,7 +103,7 @@ app.get('/article', (req, res) => {
     </html>
   `;
 
-  const amp = ampify(html, {cwd: 'amp'});
+  const amp = await ampify(html, {cwd: 'amp'});
   res.send(amp); // serving AMP content
 });
 
@@ -123,8 +123,8 @@ const app = express();
 app.use((req, res, next) => {
   if (req.url.startsWith('/amp')) {
     const send = res.send;
-    res.send = function (html) {
-    const amp = ampify(html, {cwd: 'amp'});
+    res.send = async (html) => {
+      const amp = await ampify(html, {cwd: 'amp'});
       send.call(this, amp);
     };
   }
