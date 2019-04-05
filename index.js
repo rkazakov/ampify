@@ -1,7 +1,7 @@
 const fs = require('fs');
 const url = require('url');
-const cheerio = require('cheerio');
 const axios = require('axios');
+const cheerio = require('cheerio');
 const sizeOf = require('image-size');
 const CleanCss = require('clean-css');
 
@@ -24,29 +24,27 @@ module.exports = async (html, options) => {
 
   const round = cheerioOptions.round ? numb => Math.round(numb / 5) * 5 : numb => numb;
 
-  // Fetch images and css
+  /* Fetch images and CSS */
   const promises = [];
   const responses = {};
+
   $('img:not([width]):not([height])').each((index, element) => {
     const src = $(element).attr('src');
-    // Already fetched? Skip
+    // skip if already fetched
     if (responses[src]) {
       return;
     }
     if (src && src.indexOf('//') !== -1) {
-      // Set a flag
+      // set a flag
       responses[src] = true;
       const imageUrl = element.attribs.src;
-      promises.push(axios
-        .get(imageUrl, {
-          responseType: 'arraybuffer',
-        })
+      promises.push(axios.get(imageUrl, { responseType: 'arraybuffer' })
         .then((response) => {
-          // Set response
           responses[src] = response;
         }));
     }
   });
+
   $('link[rel=stylesheet]').each((index, element) => {
     const src = $(element).attr('href');
     if (responses[src]) {
@@ -59,14 +57,16 @@ module.exports = async (html, options) => {
           cssSrc = `https:${src}`;
         }
         responses[src] = true;
-        promises.push(axios.get(cssSrc).then((response) => {
-          responses[src] = response;
-        }));
+        promises.push(axios.get(cssSrc)
+          .then((response) => {
+            responses[src] = response;
+          }));
       }
     } catch (err) {
       console.dir(err);
     }
   });
+
   await Promise.all(promises);
 
   /* html ⚡ */
@@ -175,7 +175,7 @@ module.exports = async (html, options) => {
       } else if (src.indexOf('//') !== -1) {
         const response = responses[src];
         if (response === true) {
-          throw new Error('No css for', src);
+          throw new Error('No CSS for', src);
         }
         file = setFile(response.data);
       }
