@@ -13,7 +13,7 @@
 ## Installation
 
 ```sh
-npm install ampify --save
+npm install ampify
 ```
 
 ## Usage
