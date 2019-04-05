@@ -1,5 +1,10 @@
 # Release History
 
+* 0.5.0
+  * BUG: fetching CSS from another host
+  * BUG: fetching images from another host
+  * UPDATE: Dependencies: express, jest
+  * UPDATE: documentation
 * 0.4.2
   * UPDATE: documentation
 * 0.4.1
