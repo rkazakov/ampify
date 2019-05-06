@@ -21,7 +21,9 @@
     "coverage": "node_modules/.bin/jest --coverage",
     "lint": "node_modules/.bin/eslint ./*.js test",
     "test": "node_modules/.bin/jest",
-    "test:watch": "node_modules/.bin/jest --watchAll"
+    "test:watch": "node_modules/.bin/jest --watchAll",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -35,7 +37,8 @@
     "axios": "^0.18.0",
     "cheerio": "^0.22.0",
     "clean-css": "^4.2.1",
-    "image-size": "^0.7.3"
+    "image-size": "^0.7.3",
+    "snyk": "^1.161.1"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
@@ -45,5 +48,6 @@
   },
   "engines": {
     "node": ">=8.0.0"
-  }
+  },
+  "snyk": true
 }
