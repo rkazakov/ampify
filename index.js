@@ -76,6 +76,8 @@ module.exports = async (html, options) => {
 
   /* head */
 
+  $('*').removeAttr('style');
+
   /* main amp library */
   $('head script[src="https://cdn.ampproject.org/v0.js"]').remove();
   $('head').prepend('<script async src="https://cdn.ampproject.org/v0.js"></script>');
