@@ -36,7 +36,7 @@
     "axios": "^0.18.0",
     "cheerio": "^0.22.0",
     "clean-css": "^4.2.1",
-    "image-size": "^0.7.3"
+    "image-size": "^0.8.1"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
