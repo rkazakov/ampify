@@ -89,11 +89,14 @@ module.exports = async (html, options) => {
   $('script').each((index, element) => {
     const src = $(element).attr('src');
     if (src) {
-      const trackingId = src.match(/\bUA-\d{4,10}-\d{1,4}\b/);
+      let trackingId = src.match(/\bUA-\d{4,10}-\d{1,4}\b/);
+      if(!trackingId) trackingId=src.match(/\bAW-\d{4,10}\b/);
       if (trackingId) {
         $(element).remove();
-        $('head').prepend('<script async custom-element="amp-analytics"src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>');
-        $('body').append(`<amp-analytics type="googleanalytics">
+        if(!$('script[custom-element="amp-analytics"]').length){
+		$('head').prepend('<script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>');
+        }
+	$('body').append(`<amp-analytics type="googleanalytics">
           <script type="application/json">
             { "vars": {
                 "account": "${trackingId}"
@@ -204,6 +207,10 @@ module.exports = async (html, options) => {
 
   if (youtube) {
     $('head').prepend('<script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js">');
+  }
+
+  if($('form').length){
+	$('head').prepend('<script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js">');
   }
 
   /* amp tags */
