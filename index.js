@@ -7,7 +7,7 @@ const CleanCss = require('clean-css');
 
 module.exports = async (html, options) => {
   const tags = {
-    amp: ['img', 'video'],
+    amp: ['img', 'video','iframe'],
   };
 
   let youtube = false;
@@ -211,6 +211,10 @@ module.exports = async (html, options) => {
 
   if($('form').length){
 	$('head').prepend('<script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js">');
+  }
+
+  if($('iframe').length){
+	$('head').prepend('<script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js">');
   }
 
   /* amp tags */
