@@ -7,7 +7,7 @@ const CleanCss = require('clean-css');
 
 module.exports = async (html, options) => {
   const tags = {
-    amp: ['img', 'video'],
+    amp: ['img', 'video','iframe'],
   };
 
   let youtube = false;
@@ -89,10 +89,13 @@ module.exports = async (html, options) => {
   $('script').each((index, element) => {
     const src = $(element).attr('src');
     if (src) {
-      const trackingId = src.match(/\bUA-\d{4,10}-\d{1,4}\b/);
+      let trackingId = src.match(/\bUA-\d{4,10}-\d{1,4}\b/);
+      if(!trackingId) trackingId=src.match(/\bAW-\d{4,10}\b/);
       if (trackingId) {
         $(element).remove();
-        $('head').prepend('<script async custom-element="amp-analytics"src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>');
+        if(!$('script[custom-element="amp-analytics"]').length){
+          $('head').prepend('<script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>');
+        }
         $('body').append(`<amp-analytics type="googleanalytics">
           <script type="application/json">
             { "vars": {
@@ -156,34 +159,36 @@ module.exports = async (html, options) => {
     }
   });
 
+  let inlineCss = '';
   /* inline styles */
-  $('link[rel=stylesheet]').each((index, element) => {
+  $('link[rel=stylesheet],style:not([amp-boilerplate])').each((index, element) => {
     const src = $(element).attr('href');
     let path = src;
-    let file = '';
     const setFile = (data) => {
-      const minified = new CleanCss().minify(data).styles;
-      return `<style amp-custom>${minified}</style>`;
+      return new CleanCss().minify(data).styles;
     };
-
-    try {
-      if (src.indexOf('//') === -1) {
-        path = `${options.cwd}/${src}`;
-        if (fs.existsSync(path)) {
-          file = setFile(String(fs.readFileSync(path)));
+    if(element.tagName=='style'){
+      inlineCss += setFile($(element).text());
+    }else{
+      try {
+        if (src.indexOf('//') === -1) {
+          path = `${options.cwd}/${src}`;
+          if (fs.existsSync(path)) {
+            inlineCss += setFile(String(fs.readFileSync(path)));
+          }
+        } else if (src.indexOf('//') !== -1) {
+          inlineCss += setFile(String(responses[src]));
         }
-      } else if (src.indexOf('//') !== -1) {
-        const response = responses[src];
-        if (response === true) {
-          throw new Error('No CSS for', src);
-        }
-        file = setFile(response.data);
+      } catch (err) {
+        console.dir(err);
       }
-    } catch (err) {
-      console.dir(err);
     }
-    $(element).replaceWith(file);
+    $(element).remove();
   });
+
+  if (inlineCss !== '') {
+    $('head').append(`<style amp-custom>${inlineCss}</style>`);
+  }
 
   /* youtube */
   $('iframe[src*="http://www.youtube.com"],iframe[src*="https://www.youtube.com"],iframe[src*="http://youtu.be/"],iframe[src*="https://youtu.be/"]').each((index, element) => {
@@ -204,6 +209,14 @@ module.exports = async (html, options) => {
 
   if (youtube) {
     $('head').prepend('<script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js">');
+  }
+
+  if($('form').length){
+	$('head').prepend('<script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js">');
+  }
+
+  if($('iframe').length){
+	$('head').prepend('<script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js">');
   }
 
   /* amp tags */
