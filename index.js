@@ -161,14 +161,14 @@ module.exports = async (html, options) => {
 
   let inlineCss = '';
   /* inline styles */
-  $('link[rel=stylesheet],style').each((index, element) => {
+  $('link[rel=stylesheet],style:not([amp-boilerplate])').each((index, element) => {
     const src = $(element).attr('href');
     let path = src;
     const setFile = (data) => {
       return new CleanCss().minify(data).styles;
     };
     if(element.tagName=='style'){
-      inlineCss += $(element).text();
+      inlineCss += setFile($(element).text());
     }else{
       try {
         if (src.indexOf('//') === -1) {
