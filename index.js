@@ -94,9 +94,9 @@ module.exports = async (html, options) => {
       if (trackingId) {
         $(element).remove();
         if(!$('script[custom-element="amp-analytics"]').length){
-		$('head').prepend('<script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>');
+          $('head').prepend('<script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>');
         }
-	$('body').append(`<amp-analytics type="googleanalytics">
+        $('body').append(`<amp-analytics type="googleanalytics">
           <script type="application/json">
             { "vars": {
                 "account": "${trackingId}"
@@ -159,34 +159,36 @@ module.exports = async (html, options) => {
     }
   });
 
+  let inlineCss = '';
   /* inline styles */
-  $('link[rel=stylesheet]').each((index, element) => {
+  $('link[rel=stylesheet],style').each((index, element) => {
     const src = $(element).attr('href');
     let path = src;
-    let file = '';
     const setFile = (data) => {
-      const minified = new CleanCss().minify(data).styles;
-      return `<style amp-custom>${minified}</style>`;
+      return new CleanCss().minify(data).styles;
     };
-
-    try {
-      if (src.indexOf('//') === -1) {
-        path = `${options.cwd}/${src}`;
-        if (fs.existsSync(path)) {
-          file = setFile(String(fs.readFileSync(path)));
+    if(element.tagName=='style'){
+      inlineCss += $(element).text();
+    }else{
+      try {
+        if (src.indexOf('//') === -1) {
+          path = `${options.cwd}/${src}`;
+          if (fs.existsSync(path)) {
+            inlineCss += setFile(String(fs.readFileSync(path)));
+          }
+        } else if (src.indexOf('//') !== -1) {
+          inlineCss += setFile(String(responses[src]));
         }
-      } else if (src.indexOf('//') !== -1) {
-        const response = responses[src];
-        if (response === true) {
-          throw new Error('No CSS for', src);
-        }
-        file = setFile(response.data);
+      } catch (err) {
+        console.dir(err);
       }
-    } catch (err) {
-      console.dir(err);
     }
-    $(element).replaceWith(file);
+    $(element).remove();
   });
+
+  if (inlineCss !== '') {
+    $('head').append(`<style amp-custom>${inlineCss}</style>`);
+  }
 
   /* youtube */
   $('iframe[src*="http://www.youtube.com"],iframe[src*="https://www.youtube.com"],iframe[src*="http://youtu.be/"],iframe[src*="https://youtu.be/"]').each((index, element) => {
