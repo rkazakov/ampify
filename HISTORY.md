@@ -1,9 +1,16 @@
 # Release History
 
+* 0.6.0
+  * ADD: Ability to concat all custom styles to a single `style` tag
+  * ADD: Ability to add canonical URL
+  * ADD: Ability to remove inline-styles
+  * UPDATE: dependencies: axios, clean-css, image-size, jest, eslint
+  * UPDATE: examples dependencies
+  * UPDATE: documentation
 * 0.5.0
   * BUG: fetching CSS from another host
   * BUG: fetching images from another host
-  * UPDATE: Dependencies: express, jest
+  * UPDATE: dependencies: express, jest
   * UPDATE: documentation
 * 0.4.2
   * UPDATE: documentation
