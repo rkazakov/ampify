@@ -3,7 +3,9 @@ const ampify = require('ampify');
 
 const app = express();
 
-app.get('/article', (req, res) => {
+app.use(express.static('public'));
+
+app.get('/article', async (req, res) => {
   const html = `
     <html>
       <head>
@@ -15,18 +17,25 @@ app.get('/article', (req, res) => {
           gtag('config', 'UA-123456789-1');
         </script>
         <title>AMP page</title>
+        <link rel="stylesheet" type="text/css" href="http://localhost:5000/styles.css">
       </head>
       <body>
+        <p>This is an AMP article</p>
         <div>
-          <p>This is an AMP article</p>
+          <p>AMP Image</p>
+          <img src="http://localhost:5000/image.png" />
+        </div>
+        <div>
+          <p>AMP Youtube</p>
           <iframe src="http://www.youtube.com/embed/OO9oKhs80aI"
-                  width="560" height="315" frameborder="0" allowfullscreen></iframe>
+            width="560" height="315" frameborder="0" allowfullscreen>
+          </iframe>
         </div>
       </body>
     </html>
   `;
 
-  const amp = ampify(html, { cwd: 'amp' });
+  const amp = await ampify(html, { cwd: 'amp' });
   res.send(amp); // serving AMP content
 });
 

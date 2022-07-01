@@ -16,4 +16,12 @@ describe('inline styles', () => {
       { cwd: __dirname.split(path.sep).pop() },
     );
   });
+
+  test('should remove inline style', () => {
+    assert(
+      '<span style="background-color: red">hello</span>',
+      '<span>hello</span>',
+      { cwd: __dirname.split(path.sep).pop() },
+    );
+  });
 });

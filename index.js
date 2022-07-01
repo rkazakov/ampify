@@ -1,11 +1,11 @@
 const fs = require('fs');
 const url = require('url');
+const axios = require('axios');
 const cheerio = require('cheerio');
-const request = require('request');
 const sizeOf = require('image-size');
 const CleanCss = require('clean-css');
 
-module.exports = (html, options) => {
+module.exports = (html, options, canonicalURL) => {
   const tags = {
     amp: ['img', 'video'],
   };
@@ -22,9 +22,52 @@ module.exports = (html, options) => {
 
   const $ = cheerio.load(html, cheerioOptions);
 
-  const round = cheerioOptions.round
-    ? numb => Math.round(numb / 5) * 5
-    : numb => numb;
+  const round = cheerioOptions.round ? numb => Math.round(numb / 5) * 5 : numb => numb;
+
+  /* Fetch images and CSS */
+  const promises = [];
+  const responses = {};
+
+  $('img:not([width]):not([height])').each((index, element) => {
+    const src = $(element).attr('src');
+    // skip if already fetched
+    if (responses[src]) {
+      return;
+    }
+    if (src && src.indexOf('//') !== -1) {
+      // set a flag
+      responses[src] = true;
+      const imageUrl = element.attribs.src;
+      promises.push(axios.get(imageUrl, { responseType: 'arraybuffer' })
+        .then((response) => {
+          responses[src] = response;
+        }));
+    }
+  });
+
+  $('link[rel=stylesheet]').each((index, element) => {
+    const src = $(element).attr('href');
+    if (responses[src]) {
+      return;
+    }
+    try {
+      if (src && src.indexOf('//') !== -1) {
+        let cssSrc = src;
+        if (src.indexOf('//') === 0) {
+          cssSrc = `https:${src}`;
+        }
+        responses[src] = true;
+        promises.push(axios.get(cssSrc)
+          .then((response) => {
+            responses[src] = response;
+          }));
+      }
+    } catch (err) {
+      console.dir(err);
+    }
+  });
+
+  await Promise.all(promises);
 
   /* html ⚡ */
   $('html').each((index, element) => {
@@ -32,6 +75,8 @@ module.exports = (html, options) => {
   });
 
   /* head */
+
+  $('*').removeAttr('style');
 
   /* main amp library */
   $('head script[src="https://cdn.ampproject.org/v0.js"]').remove();
@@ -41,6 +86,10 @@ module.exports = (html, options) => {
   $('head meta[charset="utf-8"]').remove();
   $('head meta[charset="UTF-8"]').remove();
   $('head').prepend('<meta charset="utf-8">');
+
+  if (canonicalURL) {
+    $('head').append(`<link rel="canonical" href="${canonicalURL}">`);
+  }
 
   /* google analytics */
   $('script').each((index, element) => {
@@ -101,15 +150,15 @@ module.exports = (html, options) => {
         });
       }
     } else if (src.indexOf('//') !== -1) {
-      const imageUrl = element.attribs.src;
-      const response = request('GET', imageUrl);
-      if (response.statusCode === 200) {
-        const size = sizeOf(response.body);
-        $(element).attr({
-          width: round(size.width),
-          height: round(size.height),
-        });
+      const response = responses[src];
+      if (response === true) {
+        throw new Error('No image for', src);
       }
+      const size = sizeOf(Buffer.from(response.data, 'binary'));
+      $(element).attr({
+        width: round(size.width),
+        height: round(size.height),
+      });
     }
   });
 

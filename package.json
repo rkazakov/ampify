@@ -3,6 +3,7 @@
   "version": "0.5.0",
   "description": "Convert plain HTML to Google Accelerated Mobile Pages (AMP)",
   "main": "index.js",
+  "types": "index.d.ts",
   "author": {
     "name": "rkazakov",
     "email": "ruslan.kazakov@gmail.com"
@@ -32,15 +33,18 @@
   },
   "homepage": "https://github.com/rkazakov/ampify#readme",
   "dependencies": {
+    "axios": "^0.21.3",
     "cheerio": "^0.22.0",
-    "clean-css": "^4.1.11",
-    "image-size": "^0.6.2",
-    "request": "^2.87.0"
+    "clean-css": "^4.2.1",
+    "image-size": "^0.8.0"
   },
   "devDependencies": {
-    "eslint": "^5.0.0",
-    "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.12.0",
-    "jest": "^23.1.0"
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "jest": "^24.7.1"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   }
 }
