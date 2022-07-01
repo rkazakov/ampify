@@ -8,7 +8,7 @@ app.use((req, res, next) => {
     const { send } = res;
     res.send = async (html) => {
       const amp = await ampify(html, { cwd: 'amp' });
-      send.call(this, amp);
+      send.call(res, amp);
     };
   }
   next();

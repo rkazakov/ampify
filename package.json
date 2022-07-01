@@ -33,13 +33,13 @@
   },
   "homepage": "https://github.com/rkazakov/ampify#readme",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.3",
     "cheerio": "^0.22.0",
     "clean-css": "^4.2.1",
-    "image-size": "^0.7.3"
+    "image-size": "^0.8.0"
   },
   "devDependencies": {
-    "eslint": "^5.16.0",
+    "eslint": "^6.0.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.16.0",
     "jest": "^24.7.1"
