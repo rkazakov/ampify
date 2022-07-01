@@ -1,5 +1,8 @@
 # Release History
 
+* 0.7.0
+  * ADD: Implement amp-form tag
+  * ADD: Implement amp-iframe tags
 * 0.6.0
   * ADD: Ability to concat all custom styles to a single `style` tag
   * ADD: Ability to add canonical URL
