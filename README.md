@@ -21,7 +21,7 @@ npm install ampify
 ```js
 const ampify = require('ampify');
 const html = '<YOUR_HTML_CONTENT>';
-const amp = ampify(html, {cwd: 'amp'});
+const amp = ampify(html, {cwd: 'amp'}, 'https://<your-canoncial-url>');
 console.log(amp); // Content of AMP HTML
 ```
 
@@ -35,6 +35,9 @@ console.log(amp); // Content of AMP HTML
 - Default: `''`
 
 ### round
+
+## Canonical URL
+With the third parameter you can set the Cannonical URL, should be a full valid URL, please refer to [page discoverable](https://www.ampproject.org/docs/fundamentals/discovery)
 
 ### Enable images dimensions rounding
 
