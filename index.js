@@ -5,7 +5,7 @@ const cheerio = require('cheerio');
 const sizeOf = require('image-size');
 const CleanCss = require('clean-css');
 
-module.exports = (html, options, canonicalURL) => {
+module.exports = async (html, options) => {
   const tags = {
     amp: ['img', 'video'],
   };
@@ -18,6 +18,7 @@ module.exports = (html, options, canonicalURL) => {
     normalizeWhitespace: options.normalizeWhitespace || false,
     xmlMode: options.xmlMode || false,
     decodeEntities: options.decodeEntities || false,
+    canonicalURL: options.canonicalURL || '',
   };
 
   const $ = cheerio.load(html, cheerioOptions);
@@ -87,8 +88,8 @@ module.exports = (html, options, canonicalURL) => {
   $('head meta[charset="UTF-8"]').remove();
   $('head').prepend('<meta charset="utf-8">');
 
-  if (canonicalURL) {
-    $('head').append(`<link rel="canonical" href="${canonicalURL}">`);
+  if (options.canonicalURL) {
+    $('head').append(`<link rel="canonical" href="${options.canonicalURL}">`);
   }
 
   /* google analytics */
@@ -162,8 +163,9 @@ module.exports = (html, options, canonicalURL) => {
     }
   });
 
-  let inlineCss = '';
   /* inline styles */
+  let inlineCss = '';
+
   $('link[rel=stylesheet]').each((index, element) => {
     const src = $(element).attr('href');
     let path = src;
@@ -178,7 +180,11 @@ module.exports = (html, options, canonicalURL) => {
           inlineCss += setFile(String(fs.readFileSync(path)));
         }
       } else if (src.indexOf('//') !== -1) {
-        inlineCss += setFile(String(request('GET', path).body));
+        const response = responses[src];
+        if (response === true) {
+          throw new Error('No CSS for', src);
+        }
+        inlineCss += setFile(response.data);
       }
     } catch (err) {
       console.dir(err);

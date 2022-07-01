@@ -21,7 +21,10 @@ npm install ampify
 ```js
 const ampify = require('ampify');
 const html = '<YOUR_HTML_CONTENT>';
-const amp = ampify(html, {cwd: 'amp'}, 'https://<your-canoncial-url>');
+const amp = ampify(html, {
+  cwd: 'amp',
+  canonicalURL: 'https://<your-canoncial-url>',
+});
 console.log(amp); // Content of AMP HTML
 ```
 
@@ -29,20 +32,23 @@ console.log(amp); // Content of AMP HTML
 
 ### cwd
 
-### Assets (images/styles) file path
+#### Assets (images/styles) file path
 
 - Type: `String`
 - Default: `''`
 
 ### round
 
-## Canonical URL
-With the third parameter you can set the Cannonical URL, should be a full valid URL, please refer to [page discoverable](https://www.ampproject.org/docs/fundamentals/discovery)
-
-### Enable images dimensions rounding
+#### Enable images dimensions rounding
 
 - Type: `String`
 - Default: `true`
+
+### canonicalURL
+- Type: `String`
+- Default: `''`
+
+Cannonical URL should be a full valid URL. Please see [Make your pages discoverable](https://www.ampproject.org/docs/fundamentals/discovery).
 
 ## Example
 

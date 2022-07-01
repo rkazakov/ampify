@@ -1,6 +1,6 @@
 const ampify = require('../');
 
-module.exports = (input, output, options, canonicalURL) => {
-  const processed = ampify(input, options, canonicalURL);
+module.exports = async (input, output, options) => {
+  const processed = await ampify(input, options);
   expect(processed).toBe(output);
 };
