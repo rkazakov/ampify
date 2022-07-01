@@ -76,7 +76,6 @@ module.exports = async (html, options) => {
   });
 
   /* head */
-
   $('*').removeAttr('style');
 
   /* main amp library */
@@ -169,6 +168,11 @@ module.exports = async (html, options) => {
         height: round(size.height),
       });
     }
+  });
+
+  /* img layout */
+  $('img').each((_, element) => {
+    $(element).attr({ layout: 'responsive' });
   });
 
   /* inline styles */
