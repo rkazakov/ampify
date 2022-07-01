@@ -1,5 +1,8 @@
 # Release History
 
+* 1.0.0
+  * ADD: Implement amp-img layout attribute
+  * UPDATE: dependencies: cheerio
 * 0.7.0
   * ADD: Implement amp-form tag
   * ADD: Implement amp-iframe tags
