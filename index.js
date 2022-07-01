@@ -7,7 +7,7 @@ const CleanCss = require('clean-css');
 
 module.exports = async (html, options) => {
   const tags = {
-    amp: ['img', 'video'],
+    amp: ['img', 'video', 'iframe'],
   };
 
   let youtube = false;
@@ -96,10 +96,18 @@ module.exports = async (html, options) => {
   $('script').each((index, element) => {
     const src = $(element).attr('src');
     if (src) {
-      const trackingId = src.match(/\bUA-\d{4,10}-\d{1,4}\b/);
+      let trackingId = src.match(/\bUA-\d{4,10}-\d{1,4}\b/);
+      if(!trackingId) {
+        trackingId = src.match(/\bAW-\d{4,10}\b/);
+      }
+
       if (trackingId) {
         $(element).remove();
-        $('head').prepend('<script async custom-element="amp-analytics"src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>');
+
+        if(!$('script[custom-element="amp-analytics"]').length) {
+          $('head').prepend('<script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>');
+        }
+
         $('body').append(`<amp-analytics type="googleanalytics">
           <script type="application/json">
             { "vars": {
@@ -136,7 +144,7 @@ module.exports = async (html, options) => {
   /* body */
 
   /* img dimensions */
-  $('img:not([width]):not([height])').each((index, element) => {
+  $('img:not([width]):not([height])').each((_, element) => {
     const src = $(element).attr('src');
     if (!src) {
       return $(element).remove();
@@ -166,12 +174,11 @@ module.exports = async (html, options) => {
   /* inline styles */
   let inlineCss = '';
 
-  $('link[rel=stylesheet]').each((index, element) => {
+  $('link[rel=stylesheet],style:not([amp-boilerplate])').each((_, element) => {
     const src = $(element).attr('href');
     let path = src;
-    const setFile = (data) => {
-      return new CleanCss().minify(data).styles;
-    };
+
+    const setFile = (data) => new CleanCss().minify(data).styles;
 
     try {
       if (src.indexOf('//') === -1) {
@@ -215,6 +222,16 @@ module.exports = async (html, options) => {
 
   if (youtube) {
     $('head').prepend('<script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js">');
+  }
+
+  if($('form').length) {
+    if(!$('script[custom-element="amp-form"]').length) {
+      $('head').prepend('<script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js">');
+    }
+  }
+
+  if($('iframe').length) {
+    $('head').prepend('<script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js">');
   }
 
   /* amp tags */
