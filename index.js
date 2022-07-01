@@ -210,13 +210,7 @@ module.exports = async (html, options) => {
     const width = $(element).attr('width');
     const height = $(element).attr('height');
     const path = url.parse(src).pathname.split('/');
-    const ampYoutube = `
-    <amp-youtube
-      data-videoid="${path[path.length - 1]}"
-      width="${width}"
-      height="${height}"
-      layout="responsive">
-    </amp-youtube>`;
+    const ampYoutube = `<amp-youtube data-videoid="${path[path.length - 1]}" width="${width}" height="${height}" layout="responsive"></amp-youtube>`;
     $(element).replaceWith(ampYoutube);
   });
 
