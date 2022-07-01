@@ -162,34 +162,33 @@ module.exports = (html, options, canonicalURL) => {
     }
   });
 
+  let inlineCss = '';
   /* inline styles */
   $('link[rel=stylesheet]').each((index, element) => {
     const src = $(element).attr('href');
     let path = src;
-    let file = '';
     const setFile = (data) => {
-      const minified = new CleanCss().minify(data).styles;
-      return `<style amp-custom>${minified}</style>`;
+      return new CleanCss().minify(data).styles;
     };
 
     try {
       if (src.indexOf('//') === -1) {
         path = `${options.cwd}/${src}`;
         if (fs.existsSync(path)) {
-          file = setFile(String(fs.readFileSync(path)));
+          inlineCss += setFile(String(fs.readFileSync(path)));
         }
       } else if (src.indexOf('//') !== -1) {
-        const response = responses[src];
-        if (response === true) {
-          throw new Error('No CSS for', src);
-        }
-        file = setFile(response.data);
+        inlineCss += setFile(String(request('GET', path).body));
       }
     } catch (err) {
       console.dir(err);
     }
-    $(element).replaceWith(file);
+    $(element).remove();
   });
+
+  if (inlineCss !== '') {
+    $('head').append(`<style amp-custom>${inlineCss}</style>`);
+  }
 
   /* youtube */
   $('iframe[src*="http://www.youtube.com"],iframe[src*="https://www.youtube.com"],iframe[src*="http://youtu.be/"],iframe[src*="https://youtu.be/"]').each((index, element) => {
